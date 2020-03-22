@@ -1,6 +1,6 @@
 <h2>Order form</h2>
 
 <form [formGroup]="form">
-  <app-product-form [formGroup]="form.controls.product" [categories]="categories"></app-product-form>
-  <app-user-form [formGroup]="form.controls.user"></app-user-form>
+  <app-product-form formControlName="product" [categories]="categories"></app-product-form>
+  <app-user-form formControlName="user"></app-user-form>
 </form>

@@ -21,16 +21,8 @@ export class OrderFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      product: this.formBuilder.group({
-        name: ['', Validators.required],
-        categoryId: [0, Validators.required],
-        price: [0, Validators.required]
-      }),
-      user: this.formBuilder.group({
-        firstname: ['', Validators.required],
-        lastname: ['', Validators.required],
-        email: ['', Validators.required],
-      })
+      product: [''],
+      user: ['']
     });
 
     this.subscriptions.push(this.form.valueChanges.subscribe(_ => {
