@@ -18,25 +18,9 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="inputPassword" class="col-sm-3 col-form-label">Size</label>
-      <div class="col-sm-9">
-        <select formControlName="sizeId" class="form-control form-control-md">
-          <option value="0" disabled>Choose size</option>
-          <option *ngFor="let item of sizes" [ngValue]="item.value">{{item.key}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-3 col-form-label">Weight</label>
-      <div class="col-sm-9">
-        <input formControlName="weight" type="number" class="form-control">
-      </div>
-    </div>
-
-    <div class="form-group row">
       <label class="col-sm-3 col-form-label">Price</label>
       <div class="col-sm-9">
-        <input formControlName="price" type="number" class="form-control">
+        <input formControlName="price" type="number" name="price" class="form-control">
       </div>
     </div>
 

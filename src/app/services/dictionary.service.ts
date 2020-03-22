@@ -5,15 +5,6 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class DictionaryService {
-  getSizes() {
-    return of([
-      { key: 'Tiny', value: 1 },
-      { key: 'Small', value: 2 },
-      { key: 'Medium', value: 3 },
-      { key: 'Big', value: 4 },
-    ]);
-  }
-
   getCategories() {
     return of([
       { key: 'Clothes', value: 1 },
