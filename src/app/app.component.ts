@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OrderFormComponent } from './components/order-form/order-form.component';
+import { Order } from 'src/app/models/order.model';
 import { Dictionary } from './models/dictionary.model';
 import { DictionaryService } from './services/dictionary.service';
 
@@ -8,42 +8,41 @@ import { DictionaryService } from './services/dictionary.service';
   selector: 'app-root',
   template: `
     <div class="container mt-5">
-      <app-order-form [categories]="categories$ | async"></app-order-form>
-      <button (click)="save()" class="btn" [disabled]="!orderForm?.isValid"
-        [ngClass]="{'btn-success': orderForm?.isValid, 'btn-secondary': !orderForm?.isValid}">Save</button>
+      <app-order-form (formChange)="formChange($event)" [initialValue]="initialValue" [categories]="categories$ | async"></app-order-form>
+      <button (click)="save()" class="btn" [disabled]="!form?.isValid"
+        [ngClass]="{'btn-success': form?.isValid, 'btn-secondary': !form?.isValid}">Save</button>
 
       <div class="mt-5">
-        value: {{orderForm?.value | json}}<br>
-        isValid: {{orderForm?.isValid}}<br>
-        isPristine: {{orderForm?.isPristine}}<br>
+        value: {{form?.value | json}}<br>
+        isValid: {{form?.isValid}}<br>
+        isPristine: {{form?.isPristine}}<br>
       </div>
 
     </div>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild(OrderFormComponent) orderForm: OrderFormComponent;
-
+export class AppComponent implements OnInit {
   categories$!: Observable<Dictionary[]>;
+  initialValue!: Partial<Order>;
+  form!: { isValid: boolean, isPristine: boolean, value: Order };
 
-  constructor(
-    private dictionarService: DictionaryService,
-    private cdr: ChangeDetectorRef
-  ) { }
+  constructor(private dictionarService: DictionaryService) { }
 
   ngOnInit() {
     this.categories$ = this.dictionarService.getCategories();
-  }
 
-  ngAfterViewInit() {
-    this.orderForm.setValue({
+    this.initialValue = {
       name: 'Default product name',
       firstname: 'Default user name'
-    });
-    this.cdr.detectChanges();
+    };
+  }
+
+  formChange(value: { isValid: boolean, isPristine: boolean, value: Order }) {
+    this.form = value;
   }
 
   save() {
-    alert(this.orderForm.value);
+    alert(JSON.stringify(this.form.value));
   }
 }
