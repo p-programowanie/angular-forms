@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Dictionary } from './../../models/dictionary.model';
 
 @Component({
@@ -9,6 +9,5 @@ import { Dictionary } from './../../models/dictionary.model';
 })
 export class ProductFormComponent {
   @Input() categories!: Dictionary[];
-
-  constructor(public controlContainer: ControlContainer) { }
+  @Input() formGroup!: FormGroup;
 }

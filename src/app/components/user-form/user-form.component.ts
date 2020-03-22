@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-user-form',
@@ -7,5 +7,5 @@ import { ControlContainer } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserFormComponent {
-  constructor(public controlContainer: ControlContainer) { }
+  @Input() formGroup: FormGroup;
 }

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Dictionary } from 'src/app/models/dictionary.model';
 import { Order } from 'src/app/models/order.model';
 
@@ -8,12 +9,13 @@ import { Order } from 'src/app/models/order.model';
   templateUrl: './order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderFormComponent implements OnInit {
+export class OrderFormComponent implements OnInit, OnDestroy {
   @Input() categories!: Dictionary[];
   @Input() initialValue!: Partial<Order>;
   @Output() formChange = new EventEmitter<FormGroup>();
 
   form!: FormGroup;
+  private subscriptions: Subscription[] = [];
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -31,9 +33,9 @@ export class OrderFormComponent implements OnInit {
       })
     });
 
-    this.form.valueChanges.subscribe(result => {
+    this.subscriptions.push(this.form.valueChanges.subscribe(_ => {
       this.formChange.emit(this.form);
-    });
+    }));
 
     this.form.patchValue({
       product: {
@@ -47,5 +49,9 @@ export class OrderFormComponent implements OnInit {
         email: this.initialValue.email || null
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(e => !e.closed ? e.unsubscribe : null);
   }
 }
