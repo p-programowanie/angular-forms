@@ -1,6 +1,6 @@
 import { Dictionary } from './../../models/dictionary.model';
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
@@ -19,9 +19,7 @@ export class ProductFormComponent implements OnInit {
     this.productForm = this.formBuilder.group({
       name: ['', Validators.required],
       categoryId: [0, Validators.required],
-      sizeId: [0, Validators.required],
-      weight: [0, Validators.required],
-      price: [0, Validators.required],
+      price: [0, Validators.required]
     });
   }
 }
