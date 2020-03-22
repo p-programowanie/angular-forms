@@ -1,4 +1,6 @@
 <h2>Order form</h2>
 
-<app-product-form (formChange)="setProductForm($event)" [initialValue]="initialValue" [categories]="categories"></app-product-form>
-<app-user-form (formChange)="setUserForm($event)" [initialValue]="initialValue"></app-user-form>
+<form [formGroup]="form">
+  <app-product-form formGroupName="product" [categories]="categories"></app-product-form>
+  <app-user-form formGroupName="user"></app-user-form>
+</form>

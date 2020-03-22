@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -19,6 +19,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
   imports: [
     BrowserModule,
     CommonModule,
+    FormsModule ,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot()
