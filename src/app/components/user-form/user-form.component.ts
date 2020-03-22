@@ -1,11 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [
+    {
+      provide: ControlContainer,
+      useExisting: FormGroupDirective
+    }
+  ]
 })
 export class UserFormComponent {
-  constructor(public controlContainer: ControlContainer) { }
+  constructor(public parent: FormGroupDirective) { }
 }
