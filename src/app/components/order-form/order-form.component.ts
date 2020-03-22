@@ -1,61 +1,39 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { merge, Subscription } from 'rxjs';
+import { ChangeDetectorRef, Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/models/dictionary.model';
 import { Order } from 'src/app/models/order.model';
-import { ProductFormComponent } from '../product-form/product-form.component';
-import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
   selector: 'app-order-form',
-  templateUrl: './order-form.component.html'
+  templateUrl: './order-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderFormComponent implements OnDestroy, AfterViewInit {
-  @ViewChild(ProductFormComponent) productForm: ProductFormComponent;
-  @ViewChild(UserFormComponent) userForm: UserFormComponent;
-
-  subscriptions: Subscription[] = [];
-
+export class OrderFormComponent {
   @Input() categories!: Dictionary[];
-  value!: Order;
+  @Input() initialValue!: Partial<Order>;
 
+  private userForm!: FormGroup;
+  private productForm!: FormGroup;
+  value: Order;
   isPristine = false;
   isValid = false;
 
   constructor(private cdr: ChangeDetectorRef) { }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(e => !e.closed ? e.unsubscribe() : null);
+  setProductForm(formGroup: FormGroup) {
+    this.productForm = formGroup;
+    this.refreshFormState();
   }
 
-  ngAfterViewInit() {
-    this.subscriptions.push(
-      merge(
-        this.productForm.productForm.valueChanges,
-        this.userForm.userForm.valueChanges
-      ).subscribe(_ => this.refreshFormState())
-    );
-  }
-
-  setValue(value: Partial<Order>) {
-    this.productForm.productForm.patchValue({
-      name: value.name || null,
-      categoryId: value.categoryId || null,
-      price: value.price || null,
-    });
-    this.userForm.userForm.patchValue({
-      firstname: value.firstname || null,
-      lastname: value.lastname || null,
-      email: value.email || null,
-    });
+  setUserForm(formGroup: FormGroup) {
+    this.userForm = formGroup;
+    this.refreshFormState();
   }
 
   private refreshFormState() {
-    this.value = {
-      ...this.userForm.userForm.getRawValue(),
-      ...this.productForm.productForm.getRawValue()
-    };
-    this.isPristine = this.userForm.userForm.pristine && this.productForm.productForm.pristine;
-    this.isValid = this.userForm.userForm.valid && this.productForm.productForm.valid;
+    this.value = { ...this.userForm?.value, ...this.productForm?.value };
+    this.isValid = this.userForm?.valid && this.productForm?.valid;
+    this.isPristine = this.userForm?.pristine && this.productForm?.pristine;
   }
 
 }

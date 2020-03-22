@@ -1,5 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Order } from 'src/app/models/order.model';
 import { OrderFormComponent } from './components/order-form/order-form.component';
 import { Dictionary } from './models/dictionary.model';
 import { DictionaryService } from './services/dictionary.service';
@@ -8,7 +9,7 @@ import { DictionaryService } from './services/dictionary.service';
   selector: 'app-root',
   template: `
     <div class="container mt-5">
-      <app-order-form [categories]="categories$ | async"></app-order-form>
+      <app-order-form [initialValue]="initialValue" [categories]="categories$ | async"></app-order-form>
       <button (click)="save()" class="btn" [disabled]="!orderForm?.isValid"
         [ngClass]="{'btn-success': orderForm?.isValid, 'btn-secondary': !orderForm?.isValid}">Save</button>
 
@@ -21,29 +22,24 @@ import { DictionaryService } from './services/dictionary.service';
     </div>
   `
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
   @ViewChild(OrderFormComponent) orderForm: OrderFormComponent;
 
   categories$!: Observable<Dictionary[]>;
+  initialValue!: Partial<Order>;
 
-  constructor(
-    private dictionarService: DictionaryService,
-    private cdr: ChangeDetectorRef
-  ) { }
+  constructor(private dictionarService: DictionaryService) { }
 
   ngOnInit() {
     this.categories$ = this.dictionarService.getCategories();
-  }
 
-  ngAfterViewInit() {
-    this.orderForm.setValue({
+    this.initialValue = {
       name: 'Default product name',
       firstname: 'Default user name'
-    });
-    this.cdr.detectChanges();
+    };
   }
 
   save() {
-    alert(this.orderForm.value);
+    alert(JSON.stringify(this.orderForm.value));
   }
 }
