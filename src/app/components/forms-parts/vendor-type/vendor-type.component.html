@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" class="p-3 mb-3" style="background: #fafafa;">
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Vendor type</label>
+    <div class="col-sm-9">
+      <select formControlName="typeId" class="form-control form-control-md">
+        <option value="0" disabled>Choose vendor type</option>
+        <option *ngFor="let item of vendorTypes" [ngValue]="item.value">{{item.key}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Foreigner</label>
+    <div class="col-sm-9">
+      <label class="p-1"><input type="radio" [value]="true" formControlName="isForeigner" name="isForeigner"> Yes</label> 
+      <label class="p-1"><input type="radio" [value]="false" formControlName="isForeigner" name="isForeigner"> No</label>
+    </div>
+  </div>
+</form>

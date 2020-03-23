@@ -1,0 +1,14 @@
+<form [formGroup]="formGroup" class="p-3 mb-3" style="background: #fafafa;">
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Account number (IBAN)</label>
+    <div class="col-sm-9">
+      <input formControlName="iban" type="text" class="form-control">
+    </div>
+  </div>
+  <div [hidden]="!shouldRequireSwift" class="form-group row">
+    <label class="col-sm-3 col-form-label">SWIFT</label>
+    <div class="col-sm-9">
+      <input formControlName="swift" type="text" class="form-control">
+    </div>
+  </div>
+</form>

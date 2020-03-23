@@ -1,25 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AppComponent } from './app.component';
-import { OrderFormComponent } from './components/order-form/order-form.component';
-import { ProductFormComponent } from './components/product-form/product-form.component';
-import { UserFormComponent } from './components/user-form/user-form.component';
+import { PaymentComponent } from './components/forms-parts/payment/payment.component';
+import { VendorCompanyComponent } from './components/forms-parts/vendor-company/vendor-company.component';
+import { VendorPrivateComponent } from './components/forms-parts/vendor-private/vendor-private.component';
+import { VendorTypeComponent } from './components/forms-parts/vendor-type/vendor-type.component';
+import { VendorComponent } from './components/forms/vendor/vendor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserFormComponent,
-    ProductFormComponent,
-    OrderFormComponent
+    VendorCompanyComponent,
+    VendorPrivateComponent,
+    VendorTypeComponent,
+    PaymentComponent,
+    VendorComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
-    FormsModule ,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot()

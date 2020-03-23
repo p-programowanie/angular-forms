@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
+export interface Dictionary {
+  key: string;
+  value: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class DictionaryService {
-  getCategories() {
+  getVendorTypes() {
     return of([
-      { key: 'Clothes', value: 1 },
-      { key: 'Books', value: 2 },
-      { key: 'Food', value: 3 },
-      { key: 'Tools', value: 4 },
+      { key: 'Company', value: 1 },
+      { key: 'Private', value: 2 }
     ]);
   }
 }

@@ -1,0 +1,8 @@
+<form [formGroup]="form">
+  <app-vendor-type [formGroup]="form.controls.vendorType" [vendorTypes]="vendorTypes"></app-vendor-type>
+
+  <app-vendor-company [hidden]="businessLogic.hideCompanyForm" [formGroup]="form.controls.vendorCompany"></app-vendor-company>
+  <app-vendor-private [hidden]="businessLogic.hidePrivateForm" [formGroup]="form.controls.vendorPrivate"></app-vendor-private>
+
+  <app-payment [shouldRequireSwift]="businessLogic.requireSwift" [formGroup]="form.controls.payment"></app-payment>
+</form>
