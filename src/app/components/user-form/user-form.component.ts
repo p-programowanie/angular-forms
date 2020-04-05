@@ -12,6 +12,4 @@ import { ControlContainer, FormGroupDirective } from '@angular/forms';
     }
   ]
 })
-export class UserFormComponent {
-  constructor(public parent: FormGroupDirective) { }
-}
+export class UserFormComponent {}

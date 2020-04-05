@@ -15,5 +15,4 @@ import { Dictionary } from './../../models/dictionary.model';
 })
 export class ProductFormComponent {
   @Input() categories!: Dictionary[];
-  constructor(public parent: FormGroupDirective) { }
 }
