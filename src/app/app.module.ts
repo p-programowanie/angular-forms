@@ -3,25 +3,23 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AppComponent } from './app.component';
-import { OrderFormComponent } from './components/order-form/order-form.component';
-import { ProductFormComponent } from './components/product-form/product-form.component';
+import { UserFormCreateComponent } from './components/user-form/user-form-create.component';
+import { UserFormShowComponent } from './components/user-form/user-form-show.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserFormComponent,
-    ProductFormComponent,
-    OrderFormComponent
+    UserFormShowComponent,
+    UserFormCreateComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    BsDropdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

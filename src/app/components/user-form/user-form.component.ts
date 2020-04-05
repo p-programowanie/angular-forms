@@ -1,41 +1,55 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { User } from './../../models/user.model';
+import { User } from 'src/app/models/user.model';
+
+export const someEmailValidator = (): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const validEmailRegex = /.+@.+\..+/;
+    if (!validEmailRegex.test(control.value)) {
+      return { invalidEmail: true };
+    }
+    return null;
+  };
+};
 
 @Component({
   selector: 'app-user-form',
-  templateUrl: './user-form.component.html',
+  template: '',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserFormComponent implements OnInit, OnDestroy {
-  @Output() formChange = new EventEmitter<FormGroup>();
-  @Input() initialValue!: User;
+  @Output() formChange = new EventEmitter<{ valid: boolean, pristine: boolean, value: User }>(true);
+  @Input() isReadonly = false;
 
-  userForm!: FormGroup;
-  subscriptions: Subscription[] = [];
-
-  constructor(private formBuilder: FormBuilder) { }
+  userForm: FormGroup = new FormGroup({});
+  subscription!: Subscription;
 
   ngOnInit() {
-    this.userForm = this.formBuilder.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      email: ['', Validators.required]
+    this.userForm = new FormGroup({
+      name: new FormControl({ value: '', disabled: this.isReadonly }, Validators.required),
+      lastname: new FormControl({ value: '', disabled: this.isReadonly }, Validators.required),
+      email: new FormControl({ value: '', disabled: this.isReadonly }, [Validators.required, someEmailValidator()]),
     });
 
-    this.subscriptions.push(this.userForm.valueChanges.subscribe(result => {
-      this.formChange.emit(this.userForm);
-    }));
-
-    this.userForm.patchValue({
-      firstname: this.initialValue.firstname || null,
-      lastname: this.initialValue.lastname || null,
-      email: this.initialValue.email || null,
-    });
+    this.subscription = this.userForm.valueChanges.subscribe(_ => this.emitFormChange());
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(e => !e.closed ? e.unsubscribe() : null);
+    if (!this.subscription.closed) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  initForm(value: User) {
+    this.userForm.patchValue(value);
+  }
+
+  private emitFormChange() {
+    this.formChange.emit({
+      valid: this.userForm.valid,
+      pristine: this.userForm.pristine,
+      value: this.userForm.value
+    });
   }
 }
